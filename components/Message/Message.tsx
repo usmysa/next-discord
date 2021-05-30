@@ -1,27 +1,33 @@
 import { FC } from 'react'
+import dayjs from 'dayjs'
 import Image from 'next/image'
-import { IUser } from '@/types/type'
+import { IMessage } from '@/types/type'
 
-const Message: FC<IUser> = ({ icon, name }: IUser) => {
+const Message: FC<IMessage> = ({ content, sendedAt, senderIcon, senderName }: IMessage) => {
     return (
-        <div className="border-b border-gray-600 py-3 flex items-start mb-4 text-sm">
-            <div className="w-10 h-10 mr-3">
-              <Image
-                src={icon}
-                width={500}
-                height={500}
-                className="rounded-full"
-              />
-            </div>
+        <li className="border-b border-gray-600 py-3 flex items-start mb-4 text-sm">
+            {
+                senderIcon
+                ? 
+                    <div className="w-10 h-10 mr-3">
+                        <Image
+                            src={senderIcon}
+                            width={500}
+                            height={500}
+                            className="rounded-full"
+                        />
+                    </div>
+                : ''
+            }
             <div className="flex-1 overflow-hidden">
                 <div>
-                    <span className="font-bold text-red-300 mr-1">{name}</span>
-                    <span className="font-bold text-gray-400 text-xs">10:23</span>
+                    <span className="font-bold text-red-300 mr-1">{senderName}</span>
+                    <span className="font-bold text-gray-500 text-xs">{dayjs(sendedAt).format('YYYY-MM-DD HH:mm:ss')}</span>
                 </div>
-                <p className="text-white leading-normal">Discord is awesome!</p>
+                <p className="text-white leading-normal">{content}</p>
             </div>
-        </div>
+        </li>
     )
 }
 
-export default Message;
+export default Message
